@@ -1,4 +1,5 @@
 const db = require("../../database");
+const User = require("./User");
 
 class UserRepository {
     constructor() {
@@ -11,7 +12,7 @@ class UserRepository {
     }
 
     async save(user) {
-        await this.db.none("INSERT INTO users (id, nome, email, password) VALUES ($1, $2, $3, $4)", [user.id, user.nome, user.email, user.password]);
+        await this.db.none("INSERT INTO users (id, name, email, password) VALUES ($1, $2, $3, $4)", [user.id, user.name, user.email, user.password]);
     }
 }
 
