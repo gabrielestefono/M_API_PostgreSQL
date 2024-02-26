@@ -1,7 +1,7 @@
 const db = require("../../database");
 const User = require("./User");
 
-class UserRepository {
+class UserMemoryRepository {
     constructor() {
         this.db = db;
     }
@@ -16,4 +16,4 @@ class UserRepository {
     }
 }
 
-module.exports = UserRepository;
+module.exports = UserMemoryRepository;

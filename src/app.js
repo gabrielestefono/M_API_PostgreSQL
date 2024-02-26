@@ -1,18 +1,18 @@
 const fastify = require("fastify")
-const BookingRepository = require("./bookings/BookingRepository")
+const BookingPostgreRepository = require("./bookings/BookingPostgreRepository")
 const BookingService = require("./bookings/BookingService")
 const BookingController = require("./bookings/BookingController")
 const AuthService = require("./auth/AuthService")
 const AuthController = require("./auth/AuthController")
-const UserRepository = require("./auth/UserPostgreRepository")
+const UserPostgreRepository = require("./auth/UserPostgreRepository")
 
 const app = fastify({ logger: true })
 
-const bookingRepository = new BookingRepository()
-const bookingService = new BookingService(bookingRepository)
+const bookingPostgreRepository = new BookingPostgreRepository()
+const bookingService = new BookingService(bookingPostgreRepository)
 const bookingController = new BookingController(bookingService)
-const userRepository = new UserRepository();
-const authService = new AuthService(userRepository);
+const userPostgreRepository = new UserPostgreRepository();
+const authService = new AuthService(userPostgreRepository);
 const authController = new AuthController(authService);
 
 const authenticatedRouteOptions = {
@@ -31,13 +31,13 @@ app.get("/hello", (request, reply) => {
   reply.send({ message: "Hello, world!!" })
 })
 
-app.get("/api/bookings", authenticatedRouteOptions, (request, reply) => {
-  const { code, body } = bookingController.index(request)
+app.get("/api/bookings", authenticatedRouteOptions, async (request, reply) => {
+  const { code, body } = await bookingController.index(request)
   reply.code(code).send(body)
 })
 
-app.post("/api/bookings", authenticatedRouteOptions, (request, reply) => {
-  const { code, body } = bookingController.save(request)
+app.post("/api/bookings", authenticatedRouteOptions, async (request, reply) => {
+  const { code, body } = await bookingController.save(request)
   reply.code(code).send(body)
 });
 
