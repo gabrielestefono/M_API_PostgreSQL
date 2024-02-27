@@ -27,10 +27,6 @@ const authenticatedRouteOptions = {
   }
 };
 
-app.get("/hello", (request, reply) => {
-  reply.send({ message: "Hello, world!!" })
-})
-
 app.get("/api/bookings", authenticatedRouteOptions, async (request, reply) => {
   const { code, body } = await bookingController.index(request)
   reply.code(code).send(body)
